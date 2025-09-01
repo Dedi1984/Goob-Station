@@ -1,10 +1,7 @@
 using Content.Shared.Interaction.Events;
 using Content.Shared.Popups;
 using Content.Shared.Damage;
-
 using Content.Shared.Damage.Prototypes;
-
-
 using Content.Shared.Inventory;
 using Content.Shared.Movement.Components;
 using Content.Server.Damage.Systems;
@@ -13,18 +10,12 @@ using Content.Server.Stunnable;
 using Content.Server.Inventory;
 using Content.Server.Polymorph.Systems;
 using Content.Server.Access.Systems;
-
 using Content.Shared.Access;
-using Content.Shared.Movement.Systems;
-using Robust.Shared.Prototypes;
-using Robust.Shared.Random;
-using System.Linq;
-
 using Content.Shared.Access.Prototypes;
 using Content.Shared.Movement.Systems;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
-
+using System.Linq;
 
 namespace Content.Goobstation.Server.FateArcade;
 
@@ -70,9 +61,6 @@ public sealed class BoneOfFateSystem : EntitySystem
                 _popup.PopupEntity("You die instantly!", uid, user);
 
                 _damage.TryChangeDamage(user, new DamageSpecifier(_proto.Index<DamageGroupPrototype>("Brute"), 1000), true);
-
-                _damage.TryChangeDamage(user, new DamageSpecifier(DamageClass.Brute, 1000), true);
-
                 break;
             case 3:
                 _popup.PopupEntity("A pack of monsters appears!", uid, user);
@@ -112,9 +100,6 @@ public sealed class BoneOfFateSystem : EntitySystem
                 _stun.TryParalyze(user, TimeSpan.FromSeconds(5), true);
 
                 _damage.TryChangeDamage(user, new DamageSpecifier(_proto.Index<DamageGroupPrototype>("Brute"), 50), true);
-
-                _damage.TryChangeDamage(user, new DamageSpecifier(DamageClass.Brute, 50), true);
-
                 break;
             case 8:
                 _popup.PopupEntity("You explode!", uid, user);
@@ -124,9 +109,6 @@ public sealed class BoneOfFateSystem : EntitySystem
                 _popup.PopupEntity("You catch a cold.", uid, user);
 
                 _damage.TryChangeDamage(user, new DamageSpecifier(_proto.Index<DamageTypePrototype>("Cold"), 5), true);
-
-                _damage.TryChangeDamage(user, new DamageSpecifier(DamageClass.Cold, 5), true);
-
                 break;
             case 10:
                 _popup.PopupEntity("Nothing happens...", uid, user);
