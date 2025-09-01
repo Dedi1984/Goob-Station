@@ -1,6 +1,11 @@
 using Content.Server.Radiation.Systems;
+
 using Content.Shared.Interaction;
 using Content.Shared.Hands.EntitySystems;
+
+using Content.Shared.Interaction.Events;
+using Content.Shared.Hands.Systems;
+
 using Robust.Shared.Random;
 
 namespace Content.Goobstation.Server.FateArcade;
