@@ -1,12 +1,12 @@
 - type: entity
-  id: BoneOfFate
-  name: bone of fate
+  id: DiceOfFate
+  name: dice of fate
   parent: BaseItem
-  description: A mysterious bone etched with numbers.
+  description: A mysterious die etched with numbers.
   components:
   - type: Sprite
     sprite: Objects/Fun/dice.rsi
     state: d20
   - type: Item
     size: Small
-  - type: BoneOfFate
+  - type: DiceOfFate

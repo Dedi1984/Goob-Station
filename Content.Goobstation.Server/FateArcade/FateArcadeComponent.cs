@@ -14,10 +14,10 @@ namespace Content.Goobstation.Server.FateArcade;
 public sealed partial class FateArcadeComponent : Component
 {
     [DataField]
-    public string BonePrototype = "BoneOfFate";
+    public string DicePrototype = "DiceOfFate";
 
     [DataField]
-    public float BoneChance = 0.05f;
+    public float DiceChance = 0.05f;
 
     [DataField]
     public float Radiation = 30f;
@@ -47,11 +47,11 @@ public sealed class FateArcadeSystem : EntitySystem
         // apply radiation damage
         _radiation.IrradiateEntity(user, component.Radiation, 1f);
 
-        // 5% chance to give bone of fate
-        if (_random.NextFloat() <= component.BoneChance)
+        // 5% chance to give dice of fate
+        if (_random.NextFloat() <= component.DiceChance)
         {
-            var bone = EntityManager.SpawnEntity(component.BonePrototype, Transform(user).Coordinates);
-            _hands.TryPickupAnyHand(user, bone, checkActionBlocker: false);
+            var dice = EntityManager.SpawnEntity(component.DicePrototype, Transform(user).Coordinates);
+            _hands.TryPickupAnyHand(user, dice, checkActionBlocker: false);
         }
     }
 }

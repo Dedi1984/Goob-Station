@@ -13,6 +13,13 @@ using Content.Server.Access.Systems;
 using Content.Shared.Access;
 using Content.Shared.Access.Prototypes;
 using Content.Shared.Movement.Systems;
+using Content.Server.Mind;
+using Content.Server.Roles;
+using Content.Shared.Mind.Components;
+using Content.Shared.NPC.Systems;
+using Content.Server._Goobstation.Wizard.Systems;
+using Content.Shared._Goobstation.Wizard;
+using Content.Server._Shitcode.Wizard.Components;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using System.Linq;
@@ -20,11 +27,11 @@ using System.Linq;
 namespace Content.Goobstation.Server.FateArcade;
 
 [RegisterComponent]
-public sealed partial class BoneOfFateComponent : Component
+public sealed partial class DiceOfFateComponent : Component
 {
 }
 
-public sealed class BoneOfFateSystem : EntitySystem
+public sealed class DiceOfFateSystem : EntitySystem
 {
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
@@ -36,13 +43,16 @@ public sealed class BoneOfFateSystem : EntitySystem
     [Dependency] private readonly AccessSystem _access = default!;
     [Dependency] private readonly MovementSpeedModifierSystem _move = default!;
     [Dependency] private readonly IPrototypeManager _proto = default!;
+    [Dependency] private readonly MindSystem _mind = default!;
+    [Dependency] private readonly RoleSystem _role = default!;
+    [Dependency] private readonly NpcFactionSystem _faction = default!;
 
     public override void Initialize()
     {
-        SubscribeLocalEvent<BoneOfFateComponent, UseInHandEvent>(OnUse);
+        SubscribeLocalEvent<DiceOfFateComponent, UseInHandEvent>(OnUse);
     }
 
-    private void OnUse(EntityUid uid, BoneOfFateComponent component, UseInHandEvent args)
+    private void OnUse(EntityUid uid, DiceOfFateComponent component, UseInHandEvent args)
     {
         if (args.Handled)
             return;
@@ -152,10 +162,18 @@ public sealed class BoneOfFateSystem : EntitySystem
                 break;
             case 19:
                 _popup.PopupEntity("Your body hardens against harm!", uid, user);
-                _damage.SetDamageModifierSetId(user, "BoneOfFateHalfDamage");
+                _damage.SetDamageModifierSetId(user, "DiceOfFateHalfDamage");
                 break;
             case 20:
                 _popup.PopupEntity("Arcane power fills you!", uid, user);
+                if (_mind.TryGetMind(user, out var mindId, out var mind))
+                {
+                    if (!_role.MindHasRole<WizardRoleComponent>(mindId, out _))
+                        _role.MindAddRole(mindId, WizardRuleSystem.Role.Id, mind, true);
+                }
+                _faction.ClearFactions(user, false);
+                _faction.AddFaction(user, WizardRuleSystem.Faction);
+                EnsureComp<WizardComponent>(user);
                 EntityManager.SpawnEntity("ClothingHeadHatWizard", Transform(user).Coordinates);
                 EntityManager.SpawnEntity("ClothingOuterWizard", Transform(user).Coordinates);
                 EntityManager.SpawnEntity("ClothingShoesWizard", Transform(user).Coordinates);
