@@ -67,7 +67,7 @@ public sealed class BoneOfFateSystem : EntitySystem
                 _popup.PopupEntity("Your equipment disintegrates!", uid, user);
                 if (TryComp<InventoryComponent>(user, out var inv))
                 {
-                    var enumerator = new InventorySlotEnumerator(inv);
+                    var enumerator = new InventorySystem.InventorySlotEnumerator(inv);
                     while (enumerator.NextItem(out var item))
                         QueueDel(item);
                 }
@@ -90,7 +90,7 @@ public sealed class BoneOfFateSystem : EntitySystem
                 break;
             case 8:
                 _popup.PopupEntity("You explode!", uid, user);
-                _explosion.QueueExplosion(user, ExplosionSystem.DefaultExplosionPrototypeId, 20, 3, 5, user);
+                _explosion.QueueExplosion(user, ExplosionSystem.DefaultExplosionPrototypeId, 20, 3, 5, user: user);
                 break;
             case 9:
                 _popup.PopupEntity("You catch a cold.", uid, user);
