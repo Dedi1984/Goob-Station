@@ -5,6 +5,6 @@
   description: An ominous arcade cabinet.
   components:
   - type: FateArcade
-    boneChance: 0.05
+    diceChance: 0.05
     radiation: 30
-    bonePrototype: BoneOfFate
+    dicePrototype: DiceOfFate

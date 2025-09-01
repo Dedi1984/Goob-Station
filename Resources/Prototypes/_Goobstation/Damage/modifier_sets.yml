@@ -293,7 +293,7 @@
     Structural: 30
 
 - type: damageModifierSet
-  id: BoneOfFateHalfDamage
+  id: DiceOfFateHalfDamage
   coefficients:
     Asphyxiation: 0.5
     Bloodloss: 0.5
