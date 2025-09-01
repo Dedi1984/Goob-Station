@@ -1,0 +1,10 @@
+- type: entity
+  id: FateArcadeMachine
+  name: fate arcade
+  parent: ArcadeBase
+  description: An ominous arcade cabinet.
+  components:
+  - type: FateArcade
+    boneChance: 0.05
+    radiation: 30
+    bonePrototype: BoneOfFate
